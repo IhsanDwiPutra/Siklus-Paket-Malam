@@ -5,10 +5,15 @@ public class PlayerInteract : MonoBehaviour { // Membuat kelas PlayerInteract un
     public Camera kameraPemain; // Menyimpan referensi kamera pemain untuk titik tengah pandangan
     public Camera kameraMotor; // Menyimpan referensi kamera yang ada di motor
     public MotorMovement scriptMotor; // Menyimpan referensi script mesin motor
+    public GameObject uiCatatan; // Menyimpan referensi UI Catatan
 
     private void Update() { // Fungsi yang dipanggil setiap frame
         if (Input.GetKeyDown(KeyCode.F)) { // Mengecek apakah pemain menekan tombol 'F' di keyboard
             CobaInteraksi(); // Memanggil fungsi CobaInteraksi di bawah jika menekan tombol 'F' ditekan
+        }
+
+        if (Input.GetKeyDown(KeyCode.X)) { // Jika tombol 'X' ditekan
+            if (uiCatatan != null) uiCatatan.SetActive(false); // Matikan teks catatan di layar
         }
     }
 
@@ -19,6 +24,9 @@ public class PlayerInteract : MonoBehaviour { // Membuat kelas PlayerInteract un
         if (Physics.Raycast(laserPandangan, out infoObjekTerkena, jarakInteraksi)) { // Menembakkan laser sejauh jarakInteraksi. Jika menabrak sesuatu, hasilnya true
             if (infoObjekTerkena.collider.CompareTag("Motor")) { // Mengecek apakah objek yang ditabrak memiliki Tag bernama "Motor"
                 NaikMotor(); // Memanggil fungsi NaikMotor di bawah
+            } else if (infoObjekTerkena.collider.CompareTag("Catatan")) {
+                uiCatatan.SetActive(true); // Munculkan teks catatan
+                Debug.Log("Membaca catatan bos!");
             }
         }
     }
